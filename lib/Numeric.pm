@@ -20,7 +20,8 @@ package Array;
 sub new {
 	my ($class, @args) = @_;
 	my $self = {
-		data => alloc($args[0])
+		data => alloc($args[0]),
+		size => $args[0]
 	};
 	return bless $self, $class;
 	
@@ -37,65 +38,99 @@ sub at {
 }
 
 sub DESTROY {
-    my $self = shift;
-    dealloc($self->{data});
+	my $self = shift;
+	dealloc($self->{data});
 }
 
 package Matrix;
 
-# Preloaded methods go here.
+sub new {
+	my ($class, @args) = @_;
+	my $self = {
+		data => alloc($args[0],$args[1]),
+		rows => $args[0],
+		cols => $args[1]
+	};
+	return bless $self, $class;
+}
+
+sub at {
+	my $self = shift;
+	my $i = shift;
+	my $j = shift;
+	if (@_) {
+		set($self->{data}, $i, $j, shift);
+	} else {
+		get($self->{data}, $i, $j);
+	}
+}
+
+sub DESTROY {
+	my $self = shift;
+	dealloc($self->{data}, $self->{rows});
+}
 
 
 
 1;
 __END__
-# Below is stub documentation for your module. You'd better edit it!
 
 =head1 NAME
 
-Numeric - Perl extension for blah blah blah
+Numeric - Perl extension for simple C data structures
 
 =head1 SYNOPSIS
 
   use Numeric;
-  blah blah blah
+  
+  #Create and fill in an array
+  my $a = new Array(10);
+
+  for (0..9) {
+  	$a->at($_, $_ * $_);
+  }
+
+  for (0..9) {
+  	print $a->at($_)."\n";
+  }
+
+  #Create and fill in a matrix
+  $b = new Matrix(10,10);
+
+  for my $i (0..9) {
+  	for my $j (0..9) {
+  		$b->at($i, $j, $i*$j);
+  	}
+  }
+
+  for my $i (0..9) {
+  	for my $j (0..9) {
+  		print $b->at($i, $j)."\t";
+  	}
+  	print "\n";
+  }
 
 =head1 DESCRIPTION
 
-Stub documentation for Numeric, created by h2xs. It looks like the
-author of the extension was negligent enough to leave the stub
-unedited.
-
-Blah blah blah.
+Numeric is a simple extension to allow using C arrays and matrices in perl. Currently, we have two datatypes - array of doubles and array of array of doubles. Both structures are heap allocated. The module does the minimum possible amount of work to limit the overhead. While it is not as fast as C itself, it drastically reduces the amount of space a comparable perl datastructure would occupy.
 
 =head2 EXPORT
 
-None by default.
-
+Array->new($size)
+Matrix->new($rows, $cols)
 
 
 =head1 SEE ALSO
 
-Mention other useful documentation such as the documentation of
-related modules or operating system documentation (such as man pages
-in UNIX), or any relevant external documentation such as RFCs or
-standards.
-
-If you have a mailing list set up for your module, mention it here.
-
-If you have a web site set up for your module, mention it here.
+XS Tutorial - http://perldoc.perl.org/perlxstut.html
 
 =head1 AUTHOR
 
-A. U. Thor, E<lt>ivan@nonetE<gt>
+Ivan Kryukov <lt>firstname dot o dot lastname at gmail dot com<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2014 by A. U. Thor
-
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself, either Perl version 5.20.1 or,
-at your option, any later version of Perl 5 you may have available.
+Perl GPL - http://perldoc.perl.org/perlgpl.html
 
 
 =cut

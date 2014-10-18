@@ -1,0 +1,8 @@
+MYMETA.json
+MYMETA.yml
+Makefile
+Numeric.c
+Numeric.o
+Numeric.bs
+blib/
+pm_to_blib
