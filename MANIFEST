@@ -2,7 +2,6 @@ Changes
 Makefile.PL
 MANIFEST
 Numeric.xs
-ppport.h
-README
+README.md
 t/Numeric.t
 lib/Numeric.pm

@@ -33,20 +33,20 @@ This provides a large reduction in the space required for the data structure. Th
 # Installation
 
 With root priveledges you can do this for system-wide install:
-
+``` bash
 	perl Makefile.PL
 	make
 	make test
 	sudo make install
-
+```
 For a local install:
-
+``` bash
    perl Makefile.PL PREFIX=~/perl5
    make
    make test
    make install
    export PERL5LIB=~/perl5 #add this to ~/.bashrc or ~/.zhsrc for persistency
-
+```
 # Licence
 
 [Perl GPL](http://perldoc.perl.org/perlgpl.html)
