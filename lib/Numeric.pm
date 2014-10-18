@@ -1,114 +1,45 @@
-
-
 use 5.016000;
 use strict;
 use warnings;
+use feature 'signatures';
 
 require Exporter;
 
 our @ISA = qw(Exporter);
 
-our @EXPORT_OK = qw();
-
 our $VERSION = '0.01';
+our %EXPORT_TAGS = ( 'all' => [ qw() ] );
+our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
+our @EXPORT = qw();
 
 require XSLoader;
-XSLoader::load('Numeric', $VERSION);
-
-package Array;
-
-sub new {
-	my ($class, @args) = @_;
-	my $self = {
-		data => alloc($args[0]),
-		size => $args[0]
-	};
-	return bless $self, $class;
-	
-}
-
-sub at {
-	my $self = shift;
-	my $index = shift;
-	if (@_) {
-		set($self->{data}, $index, shift);
-	} else {
-		get($self->{data}, $index);
-	}
-}
-
-sub DESTROY {
-	my $self = shift;
-	dealloc($self->{data});
-}
-
-package Matrix;
-
-sub new {
-	my ($class, @args) = @_;
-	my $self = {
-		data => alloc($args[0],$args[1]),
-		rows => $args[0],
-		cols => $args[1]
-	};
-	return bless $self, $class;
-}
-
-sub at {
-	my $self = shift;
-	my $i = shift;
-	my $j = shift;
-	if (@_) {
-		set($self->{data}, $i, $j, shift);
-	} else {
-		get($self->{data}, $i, $j);
-	}
-}
-
-sub DESTROY {
-	my $self = shift;
-	dealloc($self->{data}, $self->{rows});
-}
-
-
+XSLoader::load( 'Numeric', $VERSION );
 
 1;
 __END__
 
 =head1 NAME
 
-Numeric - Perl extension for simple C data structures
+Numeric - Perl extension for simple C matrices
 
 =head1 SYNOPSIS
 
-  use Numeric;
-  
-  #Create and fill in an array
-  my $a = new Array(10);
+my $N = 64**2;
+my $A = Matrix::new( $N, $N );
 
-  for (0..9) {
-  	$a->at($_, $_ * $_);
-  }
+for my $i ( 0 .. $N - 1 ) {
+    for my $j ( 0 .. $N - 1 ) {
+        Matrix::set( $A, $i, $j, rand(1) );
+    }
+}
 
-  for (0..9) {
-  	print $a->at($_)."\n";
-  }
+for my $i ( 0 .. $N - 1 ) {
+    my $r = Matrix::get_row( $A, $i );
+    # printf "%f\t", Array::get( $r, $i );
+}
 
-  #Create and fill in a matrix
-  $b = new Matrix(10,10);
+Matrix::delete( $A, 10 );
 
-  for my $i (0..9) {
-  	for my $j (0..9) {
-  		$b->at($i, $j, $i*$j);
-  	}
-  }
-
-  for my $i (0..9) {
-  	for my $j (0..9) {
-  		print $b->at($i, $j)."\t";
-  	}
-  	print "\n";
-  }
 
 =head1 DESCRIPTION
 

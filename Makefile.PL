@@ -7,7 +7,7 @@ WriteMakefile(
     VERSION_FROM      => 'lib/Numeric.pm', # finds $VERSION, requires EU::MM from perl >= 5.5
     PREREQ_PM         => {}, # e.g., Module::Name => 1.1
     ABSTRACT_FROM     => 'lib/Numeric.pm', # retrieve abstract from module
-    AUTHOR            => 'A. U. Thor <ivan@nonet>',
+    AUTHOR            => 'Ivan Kryukov <firstname dot lastname at gmail dot com>',
     #LICENSE           => 'perl',
     #Value must be from legacy list of licenses here
     #http://search.cpan.org/perldoc?Module%3A%3ABuild%3A%3AAPI

@@ -15,7 +15,7 @@ double *	T_PTRREF
 END
 
 double *
-alloc(n)
+new(n)
 	unsigned int n;
 	CODE:
 		RETVAL = (double *)(malloc(n*sizeof(double)));
@@ -41,7 +41,7 @@ get(A,i)
 
 
 void
-dealloc(A)
+delete(A)
 	double *A;
 	CODE:
 		free(A);
@@ -55,7 +55,7 @@ double **	T_PTRREF
 END
 
 double **
-alloc(r,c)
+new(r,c)
 	unsigned int r;
 	unsigned int c;
 	CODE:
@@ -87,8 +87,17 @@ get(M,i,j)
 	OUTPUT:
 		RETVAL
 
+double *
+get_row(M,i)
+	double **M;
+	unsigned int i;
+	CODE:
+		RETVAL = M[i];
+	OUTPUT:
+		RETVAL
+
 void
-dealloc(M,r)
+delete(M,r)
 	double **M;
 	unsigned int r;
 	CODE:
