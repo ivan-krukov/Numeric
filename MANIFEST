@@ -1,0 +1,8 @@
+Changes
+Makefile.PL
+MANIFEST
+Numeric.xs
+ppport.h
+README
+t/Numeric.t
+lib/Numeric.pm
