@@ -8,41 +8,33 @@
 use strict;
 use warnings;
 
-use Test::More tests => 6;
-BEGIN { use_ok('Numeric') };
+use Test::More tests => 4;
+BEGIN { use_ok('Numeric') }
 
 #########################
 
-# Insert your test code below, the Test::More module is use()ed here so read
-# its man page ( perldoc Test::More ) for help writing this test script.
+my $N = 100;
+my $A;
 
-my $a;
-ok($a = new Array(10));
+ok( $A = Matrix::new( $N, $N ) );
 
-for (0..9) {
-	$a->at($_, $_*$_);
-}
-# for (0..9) {
-# 	diag($a->at($_)."\n");
-# }
-
-is($a->at(9),81,'squares');
-
-my $b;
-ok($b = new Matrix(10,10));
-
-for my $i (0..9) {
-	for my $j (0..9) {
-		$b->at($i, $j, $i*$j);
-	}
+for my $i ( 0 .. $N - 1 ) {
+    for my $j ( 0 .. $N - 1 ) {
+        Matrix::set( $A, $i, $j, $i * $j );
+    }
 }
 
-# for my $i (0..9) {
-# 	for my $j (0..9) {
-# 		diag $b->at($i, $j)."\t";
-# 	}
-# 	diag "\n";
-# }
+for my $i ( 0 .. $N - 1 ) {
+    my $R = Matrix::get_row( $A, $i );
+    my $d = Array::get( $R, $i );
 
-is($b->at(9,9),81,'squares');
-is($b->at(7,4),28,'squares');
+    for my $j ( 0 .. $N - 1 ) {
+        Matrix::get( $A, $i, $j );
+    }
+}
+
+is( Matrix::get( $A, 99, 99 ), 9801, 'squares' );
+is( Matrix::get( $A, 34, 78 ), 2652, 'squares' );
+
+Matrix::delete( $A, $N );
+

@@ -34,22 +34,24 @@ for my $i ( 0 .. $N - 1 ) {
 }
 
 for my $i ( 0 .. $N - 1 ) {
-    my $r = Matrix::get_row( $A, $i );
-    # printf "%f\t", Array::get( $r, $i );
+    my $R = Matrix::get_row( $A, $i );
+   	my $d = Array::get($R, $i);
+    for my $j ( 0 .. $N - 1 ) {
+        Matrix::get( $A, $i, $j );
+    }
 }
 
-Matrix::delete( $A, 10 );
+Matrix::delete( $A, $N );
 
 
 =head1 DESCRIPTION
 
-Numeric is a simple extension to allow using C arrays and matrices in perl. Currently, we have two datatypes - array of doubles and array of array of doubles. Both structures are heap allocated. The module does the minimum possible amount of work to limit the overhead. While it is not as fast as C itself, it drastically reduces the amount of space a comparable perl datastructure would occupy.
-
-=head2 EXPORT
-
-Array->new($size)
-Matrix->new($rows, $cols)
-
+Numeric is a simple extension to allow using `C` arrays in `perl`. 
+Currently, we have two datatypes - array of doubles and array of array of doubles. 
+Both structures are heap allocated. 
+The module does the minimum possible amount of work to limit the overhead. 
+We have a minimal functional interface to avoid dynamic name lookups.
+This provides a large reduction in the space required for the data structure. The speed gain is also considerable.
 
 =head1 SEE ALSO
 
@@ -62,6 +64,5 @@ Ivan Kryukov <lt>firstname dot o dot lastname at gmail dot com<gt>
 =head1 COPYRIGHT AND LICENSE
 
 Perl GPL - http://perldoc.perl.org/perlgpl.html
-
 
 =cut
